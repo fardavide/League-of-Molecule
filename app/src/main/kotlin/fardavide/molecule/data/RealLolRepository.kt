@@ -1,34 +1,71 @@
 package fardavide.molecule.data
 
 import arrow.core.Either
+import arrow.core.right
+import fardavide.molecule.domain.Champion
 import fardavide.molecule.domain.DataError
 import fardavide.molecule.domain.LoLRepository
+import fardavide.molecule.domain.SortBy
+import fardavide.molecule.domain.Urls
+import fardavide.molecule.domain.Version
+import fardavide.molecule.domain.comparator
+import fardavide.molecule.domain.matcher
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Single
 
-@Factory
+@Single
 class RealLolRepository(
     private val client: HttpClient
-): LoLRepository {
+) : LoLRepository {
 
-    override fun getAllChampions() = flow { emit(fetchChampions()) }
+    private val championsCache: MutableMap<Version, List<Champion>> = mutableMapOf()
+    private val versionsCache: MutableList<Version> = mutableListOf()
 
-    private suspend fun fetchChampions() = Either
-        .catch { client.get(URL).body<ChampionsResponse>().data.values.toList() }
-        .mapLeft { e ->
-            e.printStackTrace()
-            DataError
+    override fun getChampions(
+        version: Version,
+        query: String,
+        sortBy: SortBy
+    ) = flow {
+        val champions = fetchChampions(version).map { list ->
+            list
+                .filter(Champion.matcher(query))
+                .sortedWith(Champion.comparator(sortBy))
         }
+        emit(champions)
+    }
 
-    companion object {
+    override fun getVersions(): Flow<Either<DataError, List<Version>>> = flow {
+        emit(fetchVersions())
+    }
 
-        private const val URL = "https://ddragon.leagueoflegends.com/cdn/11.20.1/data/en_US/champion.json"
+    private suspend fun fetchChampions(version: Version): Either<DataError, List<Champion>> {
+        championsCache[version]?.let { return it.right() }
+        return fetch<ChampionsResponse>(Urls.champions(version))
+            .map { it.data.values.toList() }
+            .onRight { championsCache[version] = it }
+    }
+
+    private suspend fun fetchVersions(): Either<DataError, List<Version>> {
+        if (versionsCache.isNotEmpty()) return versionsCache.right()
+        return fetch<List<String>>(Urls.versions())
+            .map { it.map(::Version) }
+            .onRight { versionsCache.addAll(it) }
+    }
+
+    private suspend inline fun <reified T> fetch(url: String): Either<DataError, T> {
+        return Either
+            .catch { client.get(url).body<T>() }
+            .mapLeft { e ->
+                e.printStackTrace()
+                DataError
+            }
     }
 }
 

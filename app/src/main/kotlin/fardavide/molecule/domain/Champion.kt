@@ -5,18 +5,21 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Champion(
-    val blurb: String,
     val id: String,
     val image: Image,
     val info: Info,
     val key: String,
+    @SerialName("blurb") val lore: String,
     val name: String,
     @SerialName("partype") val parType: String,
     val stats: Stats,
     val tags: List<String>,
     val title: String,
-    val version: String,
-)
+    val version: String
+) {
+
+    companion object
+}
 
 @Serializable
 data class Image(
@@ -26,7 +29,7 @@ data class Image(
     val sprite: String,
     @SerialName("w") val width: Int,
     val x: Int,
-    val y: Int,
+    val y: Int
 )
 
 @Serializable
@@ -34,29 +37,37 @@ data class Info(
     val attack: Int,
     val defense: Int,
     val difficulty: Int,
-    val magic: Int,
+    val magic: Int
 )
 
 @Serializable
 data class Stats(
-    val armor: Double,
+    @SerialName("armor") val armor: Double,
     @SerialName("armorperlevel") val armorPerLevel: Double,
+
     @SerialName("attackdamage") val attackDamage: Double,
     @SerialName("attackdamageperlevel") val attackDamagePerLevel: Double,
+
     @SerialName("attackrange") val attackRange: Double,
+
     @SerialName("attackspeed") val attackSpeed: Double,
     @SerialName("attackspeedperlevel") val attackSpeedPerLevel: Double,
-    val crit: Double,
+
+    @SerialName("crit") val crit: Double,
     @SerialName("critperlevel") val critPerLevel: Double,
-    val hp: Double,
+
+    @SerialName("hp") val hp: Double,
     @SerialName("hpperlevel") val hpPerLevel: Double,
     @SerialName("hpregen") val hpRegen: Double,
     @SerialName("hpregenperlevel") val hpRegenPerLevel: Double,
-    @SerialName("movespeed") val moveSpeed: Double,
-    val mp: Double,
-    @SerialName("mpperlevel") val mpPerLevel: Double,
-    @SerialName("mpregen") val mpRegen: Double,
-    @SerialName("mpregenperlevel") val mpRegenPerLevel: Double,
-    @SerialName("spellblock") val spellBlock: Double,
-    @SerialName("spellblockperlevel") val spellBlockPerLevel: Double,
+
+    @SerialName("spellblock") val magicDefence: Double,
+    @SerialName("spellblockperlevel") val magicDefencePerLevel: Double,
+
+    @SerialName("mp") val mana: Double,
+    @SerialName("mpperlevel") val manaPerLevel: Double,
+    @SerialName("mpregen") val manaRegen: Double,
+    @SerialName("mpregenperlevel") val manaRegenPerLevel: Double,
+
+    @SerialName("movespeed") val moveSpeed: Double
 )
