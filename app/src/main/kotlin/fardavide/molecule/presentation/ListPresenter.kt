@@ -60,7 +60,7 @@ class ListPresenter(
         }
 
         return ListState(
-            championsState = championsState,
+            champions = championsState,
             selectedVersion = version?.value,
             searchQuery = query,
             sort = sort,

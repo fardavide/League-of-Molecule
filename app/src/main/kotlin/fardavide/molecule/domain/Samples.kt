@@ -1,13 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package fardavide.molecule
-
-import fardavide.molecule.domain.Champion
-import fardavide.molecule.domain.Image
-import fardavide.molecule.domain.Info
-import fardavide.molecule.domain.Stats
-import fardavide.molecule.domain.Version
-import fardavide.molecule.domain.latest
+package fardavide.molecule.domain
 
 val Champion.Companion.samples get() = ChampionSamples
 val Version.Companion.samples get() = VersionSamples

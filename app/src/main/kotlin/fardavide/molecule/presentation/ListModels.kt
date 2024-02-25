@@ -20,7 +20,7 @@ sealed interface ListAction {
 }
 
 data class ListState(
-    val championsState: Lce<List<ChampionItemModel>>,
+    val champions: Lce<List<ChampionItemModel>>,
     val selectedVersion: String?,
     val searchQuery: String,
     val sort: SortBy,

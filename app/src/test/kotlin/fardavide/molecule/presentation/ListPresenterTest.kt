@@ -11,7 +11,7 @@ import fardavide.molecule.domain.LoLRepository
 import fardavide.molecule.domain.SortBy
 import fardavide.molecule.domain.SortDirection
 import fardavide.molecule.domain.Version
-import fardavide.molecule.samples
+import fardavide.molecule.domain.samples
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -34,7 +34,7 @@ class ListPresenterTest {
             // then
             assertEquals(
                 ListState(
-                    championsState = Lce.Loading,
+                    champions = Lce.Loading,
                     selectedVersion = null,
                     searchQuery = "",
                     sort = SortBy.Name(SortDirection.Ascending),
@@ -76,7 +76,7 @@ class ListPresenterTest {
             // then
             assertEquals(
                 Champion.samples.all().toModels(Version.samples.latest()),
-                awaitItem().championsState.assertContent()
+                awaitItem().champions.assertContent()
             )
             cancelAndIgnoreRemainingEvents()
         }
