@@ -28,8 +28,12 @@ data class ListState(
 )
 
 data class ChampionItemModel(
+    val attack: Int,
+    val defense: Int,
+    val difficulty: Int,
     val id: String,
     val imageUrl: String,
+    val magic: Int,
     val name: String,
     val tags: List<String>,
     val title: String
@@ -38,8 +42,12 @@ data class ChampionItemModel(
 @JvmName("toModelsChampion")
 fun List<Champion>.toModels(version: Version): List<ChampionItemModel> = map { champion ->
     ChampionItemModel(
+        attack = champion.info.attack,
+        defense = champion.info.defense,
+        difficulty = champion.info.difficulty,
         id = champion.id,
         imageUrl = Urls.image(champion, version),
+        magic = champion.info.magic,
         name = champion.name,
         tags = champion.tags,
         title = champion.title
