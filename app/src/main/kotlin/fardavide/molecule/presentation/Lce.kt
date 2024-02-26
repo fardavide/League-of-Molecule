@@ -15,3 +15,8 @@ fun <T : Any> Either<*, T>.toLce(): Lce<T> = fold(
     { Lce.Error },
     { Lce.Content(it) }
 )
+
+fun <T : Any> Lce<List<T>>.orEmpty(): List<T> = when (this) {
+    is Lce.Content -> value
+    else -> emptyList()
+}

@@ -77,5 +77,5 @@ class ListPresenter(
         map { either -> either.map(::toModels).toLce() }
 
     @JvmName("toModelsVersion")
-    private fun toModels(versions: List<Version>): List<String> = versions.map { it.value }
+    private fun toModels(versions: List<Version>): List<String> = versions.take(50).map { it.value }
 }
