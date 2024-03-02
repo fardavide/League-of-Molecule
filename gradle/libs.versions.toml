@@ -1,7 +1,7 @@
 [versions]
 activityCompose = "1.8.2"
 agp = "8.4.0-alpha12"
-arrow = "1.2.2"
+arrow = "1.2.3"
 composeBom = "2024.02.01"
 composeCompiler = "1.5.10"
 coreKtx = "1.12.0"
@@ -13,9 +13,9 @@ kotlin = "1.9.22"
 kotlinxSerialization = "1.6.3"
 ksp = "1.9.22-1.0.18"
 ktor = "2.3.8"
-landscapist = "2.3.1"
+landscapist = "2.3.2"
 lifecycleRuntimeKtx = "2.7.0"
-molecule = "1.4.0"
+molecule = "1.4.1"
 tubine = "1.0.0"
 
 [libraries]
