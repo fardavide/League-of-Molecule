@@ -35,12 +35,4 @@ abstract class MoleculeViewModel<Action, State> : ViewModel() {
             error("Event buffer overflow.")
         }
     }
-
-    protected fun launchInScope(
-        context: CoroutineContext = EmptyCoroutineContext,
-        start: CoroutineStart = CoroutineStart.DEFAULT,
-        body: suspend CoroutineScope.() -> Unit
-    ) {
-        viewModelScope.launch(context, start, body)
-    }
 }
